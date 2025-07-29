@@ -2,20 +2,26 @@
 
 {% block title %}Register{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/registerpage.css') }}">
+{% endblock %}
+
 {% block body %}
+   <div class="container containerRegister">
     <h1>Register</h1>
 
     {{ form_errors(registrationForm) }}
-
+    <div class="divForm card p-4 shadow-sm">
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+        {# {{ csrf_token('intention') }} #}
+        {{ form_widget(registrationForm.email, {'attr':{'class':'form form-control','placeholder':"email"}}) }}
+        {{ form_widget(registrationForm.firstName, {'attr':{'class':'form form-control','placeholder':"Nom"}}) }}
+        {{ form_widget(registrationForm.lastName, {'attr':{'class':'form form-control','placeholder':"Prénom"}}) }}
+        {{ form_widget(registrationForm.plainPassword, {'attr':{'class':'form form-control','placeholder':"Mot de Passe"}}) }}
+        {{ form_widget(registrationForm.agreeTerms) }}
+        <button type="submit" class="btn btn-outline-primary">Register</button>
     {{ form_end(registrationForm) }}
+    </div>
+
+    </div>
 {% endblock %}
