@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modification de la catégorie{% endblock %}
+
+{% block body %}
+    <div>
+    {{ form_start(form)}}
+        {{form_row(form.name, {'attr':{'class': 'form form-control'}}) }}
+
+        <input type="submit" value='updater' class='btn btn-primary mt-4'>
+    {{form_end(form) }}
+    </div>
+
+
+{% endblock %}

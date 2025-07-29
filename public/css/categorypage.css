@@ -1,0 +1,11 @@
+.divBtn{
+    width: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.catContainer{
+    display: flex;
+    justify-content: center;
+
+}

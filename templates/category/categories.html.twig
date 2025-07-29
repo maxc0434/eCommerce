@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/categorypage.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h2> Catégories de produits</h2>
+<div class="container catContainer">
+    <div class="row">
+
+    {% for category in categories %}
+
+    <h5> {{category.name}}</h5>
+    <div class="divBtn">
+<a href={{path("app_update_category", {'id':category.id})}} class="btn btn-primary"> Modifier </a>
+<a href={{path("app_delete_category", {'id':category.id})}} class="btn btn-danger"> Supprimer </a>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
