@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block body %}
+
+{% include 'layouts/_flash_message.html.twig' %}
+
 <div class="container containerForm">
     <form class="loginForm" method="post">
         {% if error %}

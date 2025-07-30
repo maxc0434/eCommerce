@@ -7,19 +7,19 @@
 {% endblock %}
 
 {% block body %}
-    <h2> Catégories de produits</h2>
-<div class="container catContainer">
-    <div class="row">
+    <h2 class="titleCat"> Catégories de produits</h2>
+    
+    {% include 'layouts/_flash_message.html.twig' %}
 
-    {% for category in categories %}
-
-    <h5> {{category.name}}</h5>
-    <div class="divBtn">
-<a href={{path("app_update_category", {'id':category.id})}} class="btn btn-primary"> Modifier </a>
-<a href={{path("app_delete_category", {'id':category.id})}} class="btn btn-danger"> Supprimer </a>
+    <div class="container catContainer">
+    <div class="frameDiv">
+        {% for category in categories %}
+            <div class="card divCard"> {{category.name}}
+            <a href={{path("app_update_category", {'id':category.id})}} class="btn btn-warning w-10"> Modifier </a>
+            <a href={{path("app_delete_category", {'id':category.id})}} class="btn btn-danger"> Supprimer </a>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
     </div>
-</div>
 
 {% endblock %}

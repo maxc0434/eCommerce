@@ -10,6 +10,8 @@
    <div class="container containerRegister">
     <h1>Register</h1>
 
+    {% include 'layouts/_flash_message.html.twig' %}
+
     {{ form_errors(registrationForm) }}
     <div class="divForm card p-4 shadow-sm">
     {{ form_start(registrationForm) }}

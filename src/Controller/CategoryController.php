@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'app_category')]
+    #[Route('/admin/category', name: 'app_category')]
     public function categorie(CategorieRepository $repo): Response
     {
         $categories = $repo->findAll();
@@ -36,6 +36,8 @@ final class CategoryController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
+        $this->addFlash('success', 'Vous avez bien CREE votre catégorie');
+
         return $this->redirectToRoute('app_category');
         }
         return $this->render('category/newCategory.html.twig',[
@@ -53,6 +55,8 @@ final class CategoryController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
+         $this->addFlash('success', 'Vous avez bien MODIFIE votre catégorie');
+
             return $this->redirectToRoute('app_category');
             
         }
@@ -67,8 +71,9 @@ final class CategoryController extends AbstractController
         $entityManager->remove($category);
         $entityManager->flush();
 
+     $this->addFlash('info', 'Vous avez bien SUPPRIME votre catégorie');
+
         return $this->redirectToRoute('app_category');
 
     }
-
 }
