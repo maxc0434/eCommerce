@@ -8,22 +8,22 @@
 
 {% block body %}
    <div class="container containerRegister">
-    <h1>Register</h1>
+        <h1>Register</h1>
 
-    {% include 'layouts/_flash_message.html.twig' %}
+        {% include 'layouts/_flash_message.html.twig' %}
 
-    {{ form_errors(registrationForm) }}
-    <div class="divForm card p-4 shadow-sm">
-    {{ form_start(registrationForm) }}
-        {# {{ csrf_token('intention') }} #}
-        {{ form_widget(registrationForm.email, {'attr':{'class':'form form-control','placeholder':"email"}}) }}
-        {{ form_widget(registrationForm.firstName, {'attr':{'class':'form form-control','placeholder':"Nom"}}) }}
-        {{ form_widget(registrationForm.lastName, {'attr':{'class':'form form-control','placeholder':"Prénom"}}) }}
-        {{ form_widget(registrationForm.plainPassword, {'attr':{'class':'form form-control','placeholder':"Mot de Passe"}}) }}
-        {{ form_widget(registrationForm.agreeTerms) }}
-        <button type="submit" class="btn btn-outline-primary">Register</button>
-    {{ form_end(registrationForm) }}
-    </div>
-
+        {{ form_errors(registrationForm) }}
+        <div class="divForm card p-4 shadow-sm">
+        {{ form_start(registrationForm) }}
+            {# {{ csrf_token('intention') }} #}
+            {{ form_widget(registrationForm.email, {'attr':{'class':'form form-control','placeholder':"email"}}) }}
+            {{ form_widget(registrationForm.firstName, {'attr':{'class':'form form-control','placeholder':"Nom"}}) }}
+            {{ form_widget(registrationForm.lastName, {'attr':{'class':'form form-control','placeholder':"Prénom"}}) }}
+            {{ form_widget(registrationForm.plainPassword.first, {'attr':{'class':'form form-control','placeholder':"Mot de Passe"}}) }}
+            {{ form_widget(registrationForm.plainPassword.second, {'attr':{'class':'form form-control','placeholder':"Répéter le Mot de Passe"}}) }}
+            {{ form_widget(registrationForm.agreeTerms) }}
+            <button type="submit" class="btn btn-outline-primary">Register</button>
+        {{ form_end(registrationForm) }}
+        </div>
     </div>
 {% endblock %}
