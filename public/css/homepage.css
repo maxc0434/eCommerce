@@ -1,0 +1,33 @@
+.logoMoto{
+    width: 100px;
+    display: flex;
+}
+
+.homeTitle{
+    margin-top: 50px;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 65px;
+}
+
+.homeSlogan{
+    margin-top: 50px;
+    text-align: center;
+}
+
+.divHomePage{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+.imgHomePage figure{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.imgHome{
+    width: 200px;
+}

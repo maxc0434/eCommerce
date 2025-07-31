@@ -1,4 +1,8 @@
-.navbar{
-    background-color: yellowgreen;
+.navCss{
+background: linear-gradient(135deg, rgba(255, 255, 196, 1.000) 0.000%, rgba(255, 97, 100, 1.000) 50.000%, rgba(176, 0, 18, 1.000) 100.000%)
 }
-
+.logoMoto{
+    width: 75px;
+    margin-left: -100px;
+    margin-right: 100px;
+}

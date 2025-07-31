@@ -7,12 +7,14 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class UserController extends AbstractController
 {
     #[Route('/admin/user', name: 'app_user')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(UserRepository $userRepo): Response
     {
 
