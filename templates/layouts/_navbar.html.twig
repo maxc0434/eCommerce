@@ -3,32 +3,32 @@
 {% endblock %}
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary navCss">
-  <div class="container ">
+  <div class="container">
   <img class="logoMoto" src="https://i.pinimg.com/736x/aa/d5/a6/aad5a6afab013ecc703872b12405a33b.jpg" alt="logoMoto">
-    <a class="navbar-brand" href="#">MotoShop</a>
+    <a class="navbar-brand fs-1" href="#">MotoShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}"> Accueil</a>
+        <li class="nav-item navbtnCss">
+          <a class="nav-link active fs-4" aria-current="page" href="{{ path('app_home') }}"> Accueil</a>
         </li>
         {% if categories is defined %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item dropdown navbtnCss2">
+          <a class="nav-link dropdown-toggle fs-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Catégories
           </a>
           <ul class="dropdown-menu">
             {% for category in categories %}
-            <li><a class="dropdown-item text-primary categoryTitle" href="#">{{category.name}}</a></li>
+            <li class"navbtnCss2"><a class="dropdown-item text-primary categoryTitle fs-4" href="#">{{category.name}}</a></li>
             <li><hr class="dropdown-divider"></li>
             {% endfor %}
           </ul>
         </li>
         {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown fs-4">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
           <ul class="dropdown-menu">
             <li><a href="{{ path('app_category') }}" class="dropdown-item"> Categories </a></li>
@@ -37,14 +37,14 @@
             <li><a href="{{ path('app_sub_category_index') }}" class="dropdown-item"> Sous-Categorie </a></li>
             <li><a href="" class="dropdown-item"> Ajouter une Sous-Categorie </a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a href="" class="dropdown-item"> Produit </a></li>
-            <li><a href="" class="dropdown-item"> Ajouter un Produit </a></li>
+            <li><a href="{{ path('app_product_index') }}" class="dropdown-item"> Produit </a></li>
+            <li><a href="{{ path('app_product_new') }}" class="dropdown-item"> Ajouter un Produit </a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a href="{{ path('app_user') }}" class="dropdown-item"> Utilisateurs </a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a href=" {{ path('app_logout')}}" class="nav-link"> Déconnexion </a>
+        <li class="nav-item .navbtnCss2">
+          <a href=" {{ path('app_logout')}}" class="nav-link fs-4"> Déconnexion </a>
         </li>
         {% endif %}
         {% if app.user == false %}
@@ -57,7 +57,7 @@
         {% endif %} 
       <form class="d-flex navSearch" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
   </div>

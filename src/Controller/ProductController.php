@@ -115,15 +115,15 @@ final class ProductController extends AbstractController
     }
 #endregion
 
-    #[Route('/{id}', name: 'app_product_stock_add', methods: ['POST'])]
-    public function stockAdd($id, EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $stockAdd = new AddProductHistory();
-        $form =$this->createForm(AddProductHistoryType::class, $stockAdd);
-        $form->handleRequest($request);
+    // #[Route('/{id}', name: 'app_product_stock_add', methods: ['POST'])]
+    // public function stockAdd($id, EntityManagerInterface $entityManager, Request $request): Response
+    // {
+    //     $stockAdd = new AddProductHistory();
+    //     $form =$this->createForm(AddProductHistoryType::class, $stockAdd);
+    //     $form->handleRequest($request);
 
-        return
-    }
+    //     return
+    // }
 }
 
 

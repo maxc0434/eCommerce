@@ -1,18 +1,29 @@
+body{
+    background-image: url(https://t4.ftcdn.net/jpg/02/56/08/71/360_F_256087153_MqrGfKSWAKUX2xe2i1jNezDgQmiDDjtP.jpg);
+    background-size: 60%;
+}
 .titleCat{
     display: flex;
     justify-content: center;
+    margin-top: 30px;
     margin-bottom: 50px;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 50px;
 }
-.catContainer{
+.catContainer {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly; 
+    gap: 24px;                     
     margin-bottom: 10px;
 }
 .frameDiv{
-    width: 250px;
+    width: 300px;
+
 }
 .divCard{
     width: 300px;
+    height: 150px;
     display: flex;
     justify-content: center;
     margin: auto;
@@ -20,9 +31,10 @@
 }
 a{
     width: 100px;
+    justify-content: center;
 }
 .divBtn{
     display: flex;
     justify-content: center;
-    width: 100px;
+    width: 250px;
 }

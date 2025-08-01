@@ -1,14 +1,25 @@
 .navCss{
-    background: linear-gradient(135deg, rgba(255, 255, 196, 1.000) 0.000%, rgba(255, 97, 100, 1.000) 50.000%, rgba(176, 0, 18, 1.000) 100.000%);
+/* https://grabient.com/HQDgDAbANMDsCsBGGsLWAZgJyxtsesIMiYGJ8xwiE8UALMAEz1YPPbtO1QC0YzMAUTNETKCMjJekpiCA?style=linearGradient&steps=7&angle=90 */
+
+    background: linear-gradient(90deg, rgba(177, 170, 154, 1.000) 0.000%, rgba(163, 149, 132, 1.000) 16.667%, rgba(149, 128, 111, 1.000) 33.333%, rgba(135, 107, 92, 1.000) 50.000%, rgba(121, 87, 73, 1.000) 66.667%, rgba(108, 69, 58, 1.000) 83.333%, rgba(95, 53, 45, 1.000) 100.000%);
     height: 90px;
     font-family: Impact, Charcoal, sans-serif;
 }
 .navSearch{
     position: relative;
-    left: 500px;
+    left: 300px;
 }
 .logoMoto{
     width: 75px;
     margin-left: -123px;
-    margin-right: 100px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+.navbtnCss{
+
+    margin-left: 50px;
+}
+.navbtnCss2{
+    margin-right: 30px;
+    margin-left: 20px;
 }
