@@ -34,7 +34,7 @@
             <li><a href="{{ path('app_category') }}" class="dropdown-item"> Categories </a></li>
             <li><a href="{{ path('app_category_new') }}" class="dropdown-item"> Ajouter une Categorie </a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a href="" class="dropdown-item"> Sous-Categorie </a></li>
+            <li><a href="{{ path('app_sub_category_index') }}" class="dropdown-item"> Sous-Categorie </a></li>
             <li><a href="" class="dropdown-item"> Ajouter une Sous-Categorie </a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a href="" class="dropdown-item"> Produit </a></li>
@@ -55,9 +55,9 @@
           <a href= " {{ path('app_login')}}" class="nav-link"> Connexion></a>
         </li>
         {% endif %} 
-      <form class="d-flex" role="search">
+      <form class="d-flex navSearch" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
       </form>
     </div>
   </div>

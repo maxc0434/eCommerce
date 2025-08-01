@@ -1,8 +1,14 @@
 .navCss{
-background: linear-gradient(135deg, rgba(255, 255, 196, 1.000) 0.000%, rgba(255, 97, 100, 1.000) 50.000%, rgba(176, 0, 18, 1.000) 100.000%)
+    background: linear-gradient(135deg, rgba(255, 255, 196, 1.000) 0.000%, rgba(255, 97, 100, 1.000) 50.000%, rgba(176, 0, 18, 1.000) 100.000%);
+    height: 90px;
+    font-family: Impact, Charcoal, sans-serif;
+}
+.navSearch{
+    position: relative;
+    left: 500px;
 }
 .logoMoto{
     width: 75px;
-    margin-left: -100px;
+    margin-left: -123px;
     margin-right: 100px;
 }

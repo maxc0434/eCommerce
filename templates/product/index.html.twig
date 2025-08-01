@@ -12,6 +12,7 @@
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Prix (€)</th>
+                <th>Stock</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,11 +20,19 @@
         {% for product in products %}
             <tr>
                 <td>{{ product.Name }}</td>
-                <td>{{ product.caption }}</td>
+                <td>{{ product.caption | slice(0,100) }} ...</td>
                 <td>{{ product.Price }}</td>
+            <td>
+            {% if product.stock > 0 %}
+                {{ product.stock }}
+            {% else %}
+                <span class="text-danger"> Stock Epuisé </span>
+            {% endif %}
+            </td>
                 <td>
                     <a class="btn btn-warning" href="{{ path('app_product_show', {'id': product.id}) }}">Voir</a>
                     <a class="btn btn-info" href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
+                    <a class="btn btn-outline-info" href="">Ajouter du stock</a>
                 </td>
             </tr>
         {% else %}
