@@ -1,5 +1,12 @@
 body {
-    background-image: linear-gradient( 135deg, #5EFCE8 10%, #736EFE 100%);
+    background-image: url(https://moto-addict.com/images/articles/actus/2024/10/triumph-speed--twin/triumph-speed-twin-angle.jpg);
+    background-size: cover;
+}
+.connexTitle{
+    font-family: Impact, Charcoal, sans-serif;
+    color: whitesmoke;
+    font-size: 65px;
+    text-shadow: 5px 2px 3px rgba(18, 18, 18, 0.849)
 }
 
 .loginForm{
@@ -12,4 +19,11 @@ body {
     justify-content: space-around;
     width: 100%;
     height: 100vh;
+}
+.labelEmail{
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 20px;
+    color: whitesmoke;
+    text-shadow: 2px 2px 3px rgba(18, 18, 18, 0.849)
+
 }

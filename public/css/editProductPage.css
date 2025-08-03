@@ -1,0 +1,16 @@
+body{
+    background-color: whitesmoke
+}
+.editProdTitle{
+    margin-top: 10px;
+    text-align: center;
+    font-family: Impact, Charcoal, sans-serif;
+    color: rgb(15, 14, 14);
+    text-shadow: 2px 1px 3px rgb(255, 253, 253)
+}
+.editProdDiv{
+    display: flex;
+    justify-content: flex-end;
+
+    width: 1000px;
+}

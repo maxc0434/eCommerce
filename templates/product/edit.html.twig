@@ -2,12 +2,17 @@
 
 {% block title %}Edit Product{% endblock %}
 
-{% block body %}
-    <h1>Edit Product</h1>
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/editProductPage.css') }}">
+{% endblock %}
 
+{% block body %}
+        <h1 class="editProdTitle">Modification Produit</h1>
+    <div class="editProdDiv">
     {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+    <a class="btn btn-outline-secondary" href="{{ path('app_product_index') }}">back to list</a>
 
     {{ include('product/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

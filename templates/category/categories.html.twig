@@ -18,7 +18,7 @@
             <div class="frameDiv">
             <div class="card divCard"> {{category.name}}
                 <div class="divBtn">
-                    <a href={{path("app_update_category", {'id':category.id})}} class="btn btn-outline-primary w-10"> Modifier </a>
+                    <a href={{path("app_update_category", {'id':category.id})}} class="btn btn-outline-secondary w-10"> Modifier </a>
                     <a onclick= "return confirm('Voulez vous vraiment supprimer cette catégorie?')" href={{path("app_delete_category", {'id':category.id})}} class="btn btn-danger"> Supprimer </a>
                 </div>
             </div>

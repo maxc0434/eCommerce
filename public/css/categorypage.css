@@ -20,8 +20,10 @@ body{
 .frameDiv{
     width: 300px;
 
+
 }
 .divCard{
+    background-color: whitesmoke;
     width: 300px;
     height: 150px;
     display: flex;

@@ -2,6 +2,10 @@
 
 {% block title %}Product index{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/showpage.css') }}">
+{% endblock %}
+
 {% block body %}
     <h1>Liste des Produits</h1>
     {% include 'layouts/_flash_message.html.twig'%}

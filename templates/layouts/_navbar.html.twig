@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary navCss">
   <div class="container">
   <img class="logoMoto" src="https://i.pinimg.com/736x/aa/d5/a6/aad5a6afab013ecc703872b12405a33b.jpg" alt="logoMoto">
-    <a class="navbar-brand fs-1" href="#">MotoShop</a>
+    <a class="navbar-brand fs-1 navTitleCss" href="#">MotoShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -49,15 +49,15 @@
         {% endif %}
         {% if app.user == false %}
         <li class="nav-item">
-          <a href= " {{ path('app_register')}}" class="nav-link"> Inscription></a>
+          <a href= " {{ path('app_register')}}" class="nav-link fs-4"> Inscription></a>
         </li>
         <li class="nav-item">
-          <a href= " {{ path('app_login')}}" class="nav-link"> Connexion></a>
+          <a href= " {{ path('app_login')}}" class="nav-link fs-4"> Connexion></a>
         </li>
         {% endif %} 
       <form class="d-flex navSearch" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-light" type="submit">Search</button>
       </form>
     </div>
   </div>

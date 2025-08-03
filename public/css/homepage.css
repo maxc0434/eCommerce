@@ -3,7 +3,7 @@
     display: flex;
 }
 body{
-    background-image: url(https://cdn.iris-etourism.io/uploads/aggloissoire/05b/131-244-9565315.webp);
+    background-image: url(https://moto-station.com/wp-content/uploads/2023/10/03/Scrambler1200XE_MY24_08493_JP.jpg);
     background-size: cover;
 }
 
@@ -11,12 +11,16 @@ body{
     margin-top: 40px;
     font-family: Impact, Charcoal, sans-serif;
     font-size: 75px;
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px white, 0 0 30px #cfd0cf, 0 0 40px #fefffd, 0 0 55px rgb(137, 139, 137), 0 0 75px #d78b5c
 }
 
 .homeSlogan{
     margin-top: 10px;
     text-align: center;
     font-family: Impact, Charcoal, sans-serif;
+    color: rgb(15, 14, 14);
+    text-shadow: 2px 1px 3px rgb(255, 253, 253)
+
 }
 
 .divHomePage{
@@ -32,8 +36,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    
+    flex-wrap: wrap; 
 }
 .imgHome{
     width: 139px;
@@ -62,7 +65,8 @@ figcaption{
     text-align: center;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;    
+    border-radius: 16px;  
+    color: rgb(220, 217, 217);  
     
 }
 .divImg{
