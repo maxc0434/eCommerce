@@ -39,7 +39,7 @@ class Product
     /**
      * @var Collection<int, AddProductHistory>
      */
-    #[ORM\OneToMany(targetEntity: AddProductHistory::class, mappedBy: 'Product')]
+    #[ORM\OneToMany(targetEntity: AddProductHistory::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $addProductHistories;
 
     public function __construct()
