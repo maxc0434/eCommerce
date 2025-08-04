@@ -74,3 +74,9 @@ figcaption{
     flex-direction: column;
     margin: auto;
 }
+
+
+
+.card{
+width: 15rem !important;
+}

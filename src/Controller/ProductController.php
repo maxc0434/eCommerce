@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Entity\AddProductHistory;
 use App\Form\AddProductHistoryType;
+use App\Form\ProductUpdateType;
 use App\Repository\AddProductHistoryRepository;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
@@ -87,18 +88,33 @@ final class ProductController extends AbstractController
 #endregion 
 #region EDIT
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductUpdateType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
+        $image = $form->get('image')->getData();
+
+            if($image){ 
+                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeImageName = $slugger->slug($originalName); 
+                $newFileImageName = $safeImageName.'_'.uniqid().'.'.$image->guessExtension(); 
+
+                try { 
+                    $image->move 
+                        ($this->getParameter('image_directory'),
+                        $newFileImageName);
+
+                } catch (FileException $exception) {} 
+                    $product->setImage($newFileImageName);
+            }
+            $entityManager->flush();
+                        
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->render('product/edit.html.twig', [
+            return $this->render('product/edit.html.twig', [
             'product' => $product,
             'form' => $form,
         ]);
