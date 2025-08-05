@@ -2,12 +2,19 @@
     width: 100px;
     display: flex;
 }
-body{
-    background-image: url(https://moto-station.com/wp-content/uploads/2023/10/03/Scrambler1200XE_MY24_08493_JP.jpg);
+/* body{
+    background-image: url();
+    background-size: cover;
+} */
+body {
+
+    background: url(https://moto-station.com/wp-content/uploads/2023/10/03/Scrambler1200XE_MY24_08493_JP.jpg);
     background-size: cover;
 }
 
 .homeTitle{
+    display: flex;
+    justify-content: center;
     margin-top: 40px;
     font-family: Impact, Charcoal, sans-serif;
     font-size: 75px;
@@ -23,7 +30,7 @@ body{
 
 }
 
-.divHomePage{
+/* .divHomePage{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,10 +80,70 @@ figcaption{
     display: flex;
     flex-direction: column;
     margin: auto;
+} */
+
+.divBody {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 40px 0;
+    min-height: 100vh;
+    background: rgba(255,255,255,0.1)
+}
+
+
+.container {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    
+}
+.card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s;
+    min-width: 220px;
+    max-width: 300px;
+    font-size: 1rem;
+    color: #222;
+    font-weight: 400;
+}
+.cardMargin{
+    margin-bottom: 50px;
+}
+
+.card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.card img {
+    max-width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #f6f6f6;
+}
+
+.captionP{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+.nameP{
+    font-family: Impact, Charcoal, sans-serif;
+}
+.priceP{
+    font-family: Impact, Charcoal, sans-serif;
 }
 
 
 
-.card{
-width: 15rem !important;
-}

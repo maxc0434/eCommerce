@@ -20,10 +20,19 @@
             Catégories
           </a>
           <ul class="dropdown-menu">
+
+
+
             {% for category in categories %}
             <li class"navbtnCss2"><a class="dropdown-item text-primary categoryTitle fs-4" href="#">{{category.name}}</a></li>
+
+              {% for subCategory in category.subCategories %}
+              <li><a class="dropdown-item" href="{{path('app_home_product_filter',{'id':subCategory.id} )}} ">{{ subCategory.name}}</a></li>
+              {% endfor %}
             <li><hr class="dropdown-divider"></li>
+
             {% endfor %}
+
           </ul>
         </li>
         {% endif %}
@@ -55,10 +64,10 @@
           <a href= " {{ path('app_login')}}" class="nav-link fs-4"> Connexion></a>
         </li>
         {% endif %} 
-      <form class="d-flex navSearch" role="search">
+      {# <form class="d-flex navSearch" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button class="btn btn-outline-light" type="submit">Search</button>
-      </form>
+      </form> #}
     </div>
   </div>
 </nav>
