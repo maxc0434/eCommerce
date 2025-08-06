@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+        <h1 class='mt-4 mb-4'>Commande</h1>
+        {{form_start(form)}}
+            <input class="btn btn-outline-primary" type="submit" value="Continuer">
+        {{form_end(form)}}
+        </div>
+        <div class="col-4">
+            <span class="mb-2">Montant à Payer : </span>
+            <h3>
+                <span id="card-price">{{total}}</span> €
+            </h3>
+            <span>Frais de Livraison</span>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+       const citySelector = $('#order_city'); //constante citySelector = on selectionne l'élement html qui a pour id "ordercity" et on la stock dans cette constante
+       const cityValue = citySelector.val(); //récupère la valeur actuelle de la valeur citySelector (liste déroulante des villes) et la stock dans la constante cityValue
+    })
+</script>
+{% endblock %}
