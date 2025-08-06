@@ -12,8 +12,9 @@
 
     {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a class="btn btn-outline-secondary" href="{{ path('app_product_index') }}">Retour à la liste</a>
-
+    <div class="row">
+    <a class="btn btn-outline-secondary w-25" href="{{ path('app_product_index') }}">Retour à la liste</a>
     {{ include('product/_delete_form.html.twig') }}
+    </div>
 </div>
 {% endblock %}
