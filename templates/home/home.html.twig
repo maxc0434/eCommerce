@@ -50,7 +50,7 @@
                 <h5 class="nameP">{{product.name}}</h5>
                 <h3 class="priceP">{{product.price}} €</h3> 
                 <p class="card-text captionP">{{product.caption | slice(0,20) }}...</p>
-                <a href="" class="btn btn-primary">Fonce au panier</a>
+                <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
             </div>
         </div>
     {% endfor %}

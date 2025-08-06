@@ -20,7 +20,7 @@
                     <h5 class="card-title nameCss">{{product.Name}}</h5>
                     <p class="card-text captionCss">{{product.caption}}</p>
                     <p class="card-text priceCss"> {{product.price}} € </p>
-                    <a class="btn btn-primary" href="">Fonce au panier </a>
+                    <a class="btn btn-primary" href="{{path('app_cart_new', {'id':product.id})}}">Fonce au panier </a>
                 </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
                 <h5 class="nameP">{{product.name}}</h5>
                 <h3 class="priceP">{{product.price}} €</h3> 
                 <p class="card-text captionP">{{product.caption | slice(0,20) }}...</p>
-                <a href="" class="btn btn-primary">Fonce au panier</a>
+                <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
             </div>
         </div>
     {% endfor %}
