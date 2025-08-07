@@ -13,12 +13,13 @@
             <input class="btn btn-outline-primary" type="submit" value="Continuer">
         {{form_end(form)}}
         </div>
-        <div class="col-4">
+        <div class="container col-4">
             <span class="mb-2">Montant à Payer : </span>
             <h3>
                 <span id="card-price">{{total}}</span> €
             </h3>
-            <span>Frais de Livraison</span>
+            <span>Frais de Livraison</span> 
+            <h3 id="shippingCost"></h3> €
         </div>
     </div>
 </div>
@@ -28,6 +29,27 @@
     $(document).ready(function(){
        const citySelector = $('#order_city'); //constante citySelector = on selectionne l'élement html qui a pour id "ordercity" et on la stock dans cette constante
        const cityValue = citySelector.val(); //récupère la valeur actuelle de la valeur citySelector (liste déroulante des villes) et la stock dans la constante cityValue
+        const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+        //requete ajax
+        $.ajax({
+            url:url,
+            type:'GET',
+            success:function(response){
+                const newResponse = JSON.parse(response)
+                if (parseInt(newResponse.status) === 200){
+                    console.log(newResponse.status)
+                    $("#shippingCost").text(newResponse.content)
+                }
+
+            },
+            error:function (xhr, status, error){
+
+            }
+        })
+        // citySelector.on('change', function()){
+        //     alert('hello world')
+        // }
+        
     })
 </script>
 {% endblock %}

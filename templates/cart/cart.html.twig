@@ -31,7 +31,7 @@
         {% if total > 0 %}
             <h2>Total à payer : {{total}} €</h2>
             <div class="row w-25">
-                <a href="" data-turbo="false" class="btn btn-outline-primary">Valider la Commande </a>
+                <a href="{{path('app_order')}}" data-turbo="false" class="btn btn-outline-primary">Valider la Commande </a>
                 <a href="{{path('app_cart_remove')}}" class="btn btn-outline-danger">Supprimer la commande </a>
             </div>
         {% endif %}

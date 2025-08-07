@@ -15,12 +15,12 @@
 
     <div class="productDiv">
         <div class="card mb-3 cardProd">
-            <img src="{{asset('uploads/images/' ~ product.image)}}" class="card-img-top illustrProd" alt="...">
+            <img src="{{asset('uploads/images/' ~ product.image)}}" class="card-img-top illustrProd " alt="...">
                 <div class="card-body cardBody">
                     <h5 class="card-title nameCss">{{product.Name}}</h5>
                     <p class="card-text captionCss">{{product.caption}}</p>
                     <p class="card-text priceCss"> {{product.price}} € </p>
-                    <a class="btn btn-primary" href="{{path('app_cart_new', {'id':product.id})}}">Fonce au panier </a>
+                    <a class="btn btn-primary mb-2" href="{{path('app_cart_new', {'id':product.id})}}">Fonce au panier </a>
                 </div>
         </div>
     </div>

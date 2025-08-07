@@ -4,8 +4,9 @@
 
 {% block body %}
     <h1>Créer un nouveau Produit</h1>
-
+<div class="container">
     {{ include('product/_form.html.twig', {'button_label' : 'Update'}) }}
 
     <a class="btn btn-primary" href="{{ path('app_product_index') }}">Retour</a>
+</div>
 {% endblock %}
