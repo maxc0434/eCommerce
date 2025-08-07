@@ -37,7 +37,7 @@
     $(document).ready(function(){ //Lorsque la page est prete la fonction en AJAX est pret a etre lancé
        const citySelector = $('#order_city'); //Selectionne l'élément HTML avec l'ID "order_city" (pour nous, c'est le champs select où l'on choisi la ville)
        const cityValue = citySelector.val(); // Récupère la valeur dans la const cityselector
-        const url = `/city/${cityValue}/shipping/cost`; // Construit et utiliser une URL relative (au lieu d'une URL absolue) de la requête AJAX en fonction de la valeur de cityValue
+    const url = `/city/${cityValue}/shipping/cost`; // Construit et utiliser une URL relative (au lieu d'une URL absolue) de la requête AJAX en fonction de la valeur de cityValue
         
         function ajaxRequest(url) {
         //requete ajax
@@ -55,32 +55,18 @@
                 }
             },
             error: function (xhr, status, error){
-                console.error('Erreur Ajax:', error);
+            console.error('Erreur Ajax:', error);
             }
         })
         }
         ajaxRequest(url)
 
-        // Activer le changement de ville
-        citySelector.on('change', function(){
+        // Activer le changement de ville et nouveau frais de port
+            citySelector.on('change', function(){
             const newCityValue = $(this).val();
             const newUrl = `/city/${newCityValue}/shipping/cost`;
-            
-            $.ajax({
-                url: newUrl,
-                type: 'GET',
-                success: function(response){
-                    const newResponse = JSON.parse(response)
-                    if (parseInt(newResponse.status) === 200){
-                        $("#shippingCost").text(newResponse.content)
-                    }
-                },
-                error: function (xhr, status, error){
-                    console.error('Erreur Ajax:', error);
-                }
-            })
+            ajaxRequest(newUrl)
         });
     })
 </script>
-
 {% endblock %}
