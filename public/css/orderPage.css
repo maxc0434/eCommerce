@@ -1,0 +1,15 @@
+.body{
+    background: tan;
+}
+
+.orderDiv{
+    position: relative;
+    left: -22rem;
+    top: 30rem;
+}
+
+.orderBtn{
+    position: relative;
+    left: 29rem;
+    top: 38rem;
+}

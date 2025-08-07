@@ -2,79 +2,65 @@
 
 {% block title %}Hello OrderController!{% endblock %}
 
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/orderPage.css') }}">
+{% endblock %}
+
 {% block body %}
 
 
-<div class="container">
+<div class="container ">
     <div class="row">
-        <div class="col-8">
+        <div class="col-5">
         <h1 class='mt-4 mb-4'>Commande</h1>
         {{form_start(form)}}
-            <input class="btn btn-outline-primary" type="submit" value="Continuer">
+            <input class="btn btn-outline-primary orderBtn" type="submit" value="Continuer">
         {{form_end(form)}}
         </div>
-        <div class="container col-4">
+        <div class="container col-4 orderDiv">
             <span class="mb-2">Montant à Payer : </span>
-            <h3>
-                <span id="card-price">{{total}}</span> €
-            </h3>
-            <span>Frais de Livraison</span> 
-            <h3 id="shippingCost"></h3> €
+            <h3><span id="card-price">{{total}} €</span></h3>
+
+            <span  class="mb-2">Frais de Livraison</span> 
+            <h3><span id="shippingCost"> </span> €</h3> 
+
+            <span  class="mb-2">TOTAL à Payer</span> 
+            <h3><span class="total-price"> </span> €</h3> 
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-// <script>
-//     $(document).ready(function(){
-//        const citySelector = $('#order_city'); //constante citySelector = on selectionne l'élement html qui a pour id "ordercity" et on la stock dans cette constante
-//        const cityValue = citySelector.val(); //récupère la valeur actuelle de la valeur citySelector (liste déroulante des villes) et la stock dans la constante cityValue
-//         const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
-//         //requete ajax
-//         $.ajax({
-//             url:url,
-//             type:'GET',
-//             success:function(response){
-//                 const newResponse = JSON.parse(response)
-//                 if (parseInt(newResponse.status) === 200){
-//                     console.log(newResponse.status)
-//                     $("#shippingCost").text(newResponse.content)
-//                 }
 
-//             },
-//             error:function (xhr, status, error){
-
-//             }
-//         })
-//         // citySelector.on('change', function()){
-//         //     alert('hello world')
-//         // }
-        
-//     })
-// </script>
 <script>
-    $(document).ready(function(){
-       const citySelector = $('#order_city');
-       const cityValue = citySelector.val();
-        // Utiliser une URL relative au lieu d'une URL absolue
-        const url = `/city/${cityValue}/shipping/cost`;
+    $(document).ready(function(){ //Lorsque la page est prete la fonction en AJAX est pret a etre lancé
+       const citySelector = $('#order_city'); //Selectionne l'élément HTML avec l'ID "order_city" (pour nous, c'est le champs select où l'on choisi la ville)
+       const cityValue = citySelector.val(); // Récupère la valeur dans la const cityselector
+        const url = `/city/${cityValue}/shipping/cost`; // Construit et utiliser une URL relative (au lieu d'une URL absolue) de la requête AJAX en fonction de la valeur de cityValue
         
+        function ajaxRequest(url) {
         //requete ajax
         $.ajax({
             url: url,
-            type: 'GET',
+            type: 'GET', 
             success: function(response){
                 const newResponse = JSON.parse(response)
                 if (parseInt(newResponse.status) === 200){
                     console.log(newResponse.status)
                     $("#shippingCost").text(newResponse.content)
+                    const cardPrice = parseInt($('#card-price').text());
+                    const shippingCost = parseInt($('#shippingCost').text());
+                    $('.total-price').text(cardPrice + shippingCost);
                 }
             },
             error: function (xhr, status, error){
                 console.error('Erreur Ajax:', error);
             }
         })
-        
+        }
+        ajaxRequest(url)
+
         // Activer le changement de ville
         citySelector.on('change', function(){
             const newCityValue = $(this).val();

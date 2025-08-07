@@ -47,19 +47,24 @@
             <li><a href="{{ path('app_product_new') }}" class="dropdown-item"> Ajouter un Produit </a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a href="{{ path('app_user') }}" class="dropdown-item"> Utilisateurs </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a href="{{ path('app_city_index') }}" class="dropdown-item"> Frais de Port </a></li>
           </ul>
         </li>
         {% endif %}
-        <li class="nav-item .navbtnCss2">
+
+          {% if app.user %}
+
+          <li class="nav-item .navbtnCss2">
           <a href=" {{ path('app_logout')}}" class="nav-link fs-4"> Déconnexion </a>
-        </li>
-        {% if app.user == false %}
-        <li class="nav-item">
-          <a href= " {{ path('app_register')}}" class="nav-link fs-4"> Inscription></a>
-        </li>
-        <li class="nav-item">
-          <a href= " {{ path('app_login')}}" class="nav-link fs-4"> Connexion></a>
-        </li>
+         </li>
+          {% else %}
+          <li class="nav-item">
+            <a href= " {{ path('app_login')}}" class="nav-link fs-4"> Connexion></a>
+          </li>
+          <li class="nav-item">
+            <a href= " {{ path('app_register')}}" class="nav-link fs-4"> Inscription></a>
+          </li>
         {% endif %} 
       {# <form class="d-flex navSearch" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
