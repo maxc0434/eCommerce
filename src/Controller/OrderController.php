@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]

@@ -25,31 +25,76 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+// <script>
+//     $(document).ready(function(){
+//        const citySelector = $('#order_city'); //constante citySelector = on selectionne l'élement html qui a pour id "ordercity" et on la stock dans cette constante
+//        const cityValue = citySelector.val(); //récupère la valeur actuelle de la valeur citySelector (liste déroulante des villes) et la stock dans la constante cityValue
+//         const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+//         //requete ajax
+//         $.ajax({
+//             url:url,
+//             type:'GET',
+//             success:function(response){
+//                 const newResponse = JSON.parse(response)
+//                 if (parseInt(newResponse.status) === 200){
+//                     console.log(newResponse.status)
+//                     $("#shippingCost").text(newResponse.content)
+//                 }
+
+//             },
+//             error:function (xhr, status, error){
+
+//             }
+//         })
+//         // citySelector.on('change', function()){
+//         //     alert('hello world')
+//         // }
+        
+//     })
+// </script>
 <script>
     $(document).ready(function(){
-       const citySelector = $('#order_city'); //constante citySelector = on selectionne l'élement html qui a pour id "ordercity" et on la stock dans cette constante
-       const cityValue = citySelector.val(); //récupère la valeur actuelle de la valeur citySelector (liste déroulante des villes) et la stock dans la constante cityValue
-        const url = `http://localhost:8000/city/${cityValue}/shipping/cost`;
+       const citySelector = $('#order_city');
+       const cityValue = citySelector.val();
+        // Utiliser une URL relative au lieu d'une URL absolue
+        const url = `/city/${cityValue}/shipping/cost`;
+        
         //requete ajax
         $.ajax({
-            url:url,
-            type:'GET',
-            success:function(response){
+            url: url,
+            type: 'GET',
+            success: function(response){
                 const newResponse = JSON.parse(response)
                 if (parseInt(newResponse.status) === 200){
                     console.log(newResponse.status)
                     $("#shippingCost").text(newResponse.content)
                 }
-
             },
-            error:function (xhr, status, error){
-
+            error: function (xhr, status, error){
+                console.error('Erreur Ajax:', error);
             }
         })
-        // citySelector.on('change', function()){
-        //     alert('hello world')
-        // }
         
+        // Activer le changement de ville
+        citySelector.on('change', function(){
+            const newCityValue = $(this).val();
+            const newUrl = `/city/${newCityValue}/shipping/cost`;
+            
+            $.ajax({
+                url: newUrl,
+                type: 'GET',
+                success: function(response){
+                    const newResponse = JSON.parse(response)
+                    if (parseInt(newResponse.status) === 200){
+                        $("#shippingCost").text(newResponse.content)
+                    }
+                },
+                error: function (xhr, status, error){
+                    console.error('Erreur Ajax:', error);
+                }
+            })
+        });
     })
 </script>
+
 {% endblock %}
