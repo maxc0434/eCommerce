@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use App\Service\Cart;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,35 +17,16 @@ final class CartController extends AbstractController
                                                                                        //private readonly= propriété privé, accessible que dans cette classe, et qu'on ne peut l'assigner qu'une fois dans le constructeur
     {
     }
-
         #[Route('/cart', name: 'app_cart', methods : ['GET'])]
-    public function index(SessionInterface $session): Response
-    {   //récupère les données du panier
-        $cart = $session->get('cart', []);
-        //initialisation d'un tableau pour stocker les données du panier avec les infos de produits
-        $cartWithData=[];
-        //boucle sur les éléments du panier pour récupérer les infos de produit
-        foreach ($cart as $id => $quantity) {
+    public function index(SessionInterface $session, Cart $cart): Response
+    {   
+        $data = $cart->getCart($session);
 
-            //récupère le produit correspondant à l'Id et la quantité
-            $cartWithData[] = [
-                'product' => $this->productRepository->find($id),
-                'quantity' => $quantity
-            ];
-        }
-        //calcul total du panier
-        $total = array_sum(array_map(function ($item){
-            //Pour chaque élément du panier, multiplie le prix du produit par la quantité
-            return $item['product']->getPrice() * $item['quantity'];
-
-        }, $cartWithData));
-
-        //Rendu de la vue pour afficher le panier
         return $this->render('cart/cart.html.twig', [
-            'controller_name' => 'CartController',
-            'items' =>$cartWithData,//on retourne ses deux variables afin de les récuperer dans la vue
-            'total' =>$total
+            'items'=>$data['cart'],
+            'total'=>$data['total'],
         ]);
+
     }
 
      #[Route('/cart/add/{id}', name: 'app_cart_new', methods : ['GET'])]

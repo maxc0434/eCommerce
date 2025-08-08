@@ -4,21 +4,24 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Order;
+use App\Service\Cart;
 use App\Form\OrderType;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(ProductRepository $productRepository, Request $request, SessionInterface $session): Response
+    public function index(ProductRepository $productRepository, Request $request,
+                          SessionInterface $session, EntityManagerInterface $entityManager, Cart $cart): Response
     {
         $cart = $session->get('cart', []);
         $cartWithData=[];
