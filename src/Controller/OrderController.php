@@ -110,7 +110,7 @@ final class OrderController extends AbstractController
         return $this->redirectToRoute('app_orders_show');
     }
 
- #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]
+    #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]
     public function deleteOrder($id, OrderRepository $orderRepo, EntityManagerInterface $entityManager)
     {
         $order = $orderRepo->find($id);
