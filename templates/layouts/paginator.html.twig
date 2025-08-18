@@ -1,3 +1,7 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/paginator.css') }}">
+{% endblock %}
+
 {% if pageCount > 1 %}
     <nav aria-label="...">
         <ul class="pagination">
@@ -12,7 +16,7 @@
                     </li>
                     {% else %}
                     <li class="page-item active" aria-current="page"> 
-                        <a style="background: green" class="page-link" href="{{ path(route, query|merge({(pageParameterName):page})) }}">{{ page }}"></a>
+                        <a class="page-link" href="{{ path(route, query|merge({(pageParameterName):page})) }}">{{ page }}"></a>
                     </li>
                 {% endif %}
             {% endfor %}

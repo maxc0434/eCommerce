@@ -1,0 +1,9 @@
+.pagination .active .page-link{
+    background-color: rgba(154, 102, 39, 0.993);
+}
+
+.pagination .page-link{
+    color: black;
+    background: rgb(229, 202, 169);
+    
+}

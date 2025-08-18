@@ -6,51 +6,97 @@ use App\Entity\City;
 use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
+use App\Entity\OrderProducts;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+
+
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order')]
-    public function index(ProductRepository $productRepository, Request $request,
-                          SessionInterface $session, EntityManagerInterface $entityManager, Cart $cart): Response
-    {
+    public function index(
+        ProductRepository $productRepository,
+        Request $request,
+        SessionInterface $session,
+        EntityManagerInterface $entityManager,
+        Cart $cart
+    ): Response {
         $data = $cart->getCart($session);
-        $order= new Order();
-        $form= $this->createForm(OrderType::class, $order);
-        $form-> handleRequest($request);
+        $order = new Order();
+        $form = $this->createForm(OrderType::class, $order);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                if($order->isPayOnDelivery()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($order->isPayOnDelivery()) {
 
+                if (!empty($data['total'])) {  //on verifie que le panier n'est pas vide
                     $order->setTotalPrice($data['total']);
                     $order->setCreatedAt(new \DateTimeImmutable());
                     $entityManager->persist($order);
                     $entityManager->flush();
+
+                    // dd($data['cart']); varDie and Dump : permet de voir dans la console le contenue du panier
+
+                    foreach ($data['cart'] as $value) {
+                        $orderProduct = new OrderProducts();
+                        $orderProduct->setOrder($order);
+                        $orderProduct->setProduct($value['product']);
+                        $orderProduct->setQuantity($value['quantity']);
+                        $entityManager->persist($orderProduct);
+                        $entityManager->flush();
+                    }
                 }
             }
+            $session->set('cart', []);
+
+            return $this->redirectToRoute('order_message');
+        }
 
         return $this->render('order/index.html.twig', [
-            'form'=>$form->createView(),
-            'total'=>$data['total'],
+            'form' => $form->createView(),
+            'total' => $data['total'],
         ]);
     }
 
-    
+
+    #[Route('/order_message', name: 'order_message')]
+    public function orderMessage(): Response
+    {
+        return $this->render('order/orderMessage.html.twig');
+    }
+
+
+
     #[Route('/city/{id}/shipping/cost', name: 'app_city_shipping_cost')]
     public function cityShippingCost(City $city): Response
     {
         $cityShippingPrice = $city->getShippingCost();
 
-        return new Response(json_encode(['status'=>200, "message"=>"on", 'content'=>$cityShippingPrice]));
+        return new Response(json_encode(['status' => 200, "message" => "on", 'content' => $cityShippingPrice]));
+    }
+
+
+    #[Route('/editor/order/show', name: 'app_orders_show')]
+    public function getAllOrder(OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request):Response{
+        $orders = $orderRepo->findAll();
+        $orders = $paginator->paginate(
+            $orders,
+            $request->query->getInt('page', 1), 4
+        );
+        //dd($orders);
+        return $this->render('order/orders.html.twig', [
+            "orders"=>$orders
+        ]);
     }
 
 }
+
