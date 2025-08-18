@@ -35,7 +35,7 @@
         {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
         <li class="nav-item dropdown fs-4">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+          <a class="nav-link dropdown-toggle navbtnCss2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
           <ul class="dropdown-menu">
             <li><a href="{{ path('app_category') }}" class="dropdown-item"> Categories </a></li>
             <li><a href="{{ path('app_category_new') }}" class="dropdown-item"> Ajouter une Categorie </a></li>
@@ -57,8 +57,9 @@
         {% endif %}
 
           {% if app.user %}
-
-          <li class="nav-item .navbtnCss2">
+          <li class="nav-item navbtnCss2">
+            <a href= " {{ path('app_cart')}}" class="nav-link fs-4"> Panier </a>
+          <li class="nav-item navbtnCss2">
           <a href=" {{ path('app_logout')}}" class="nav-link fs-4"> Déconnexion </a>
          </li>
           {% else %}

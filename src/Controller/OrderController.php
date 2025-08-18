@@ -86,17 +86,37 @@ final class OrderController extends AbstractController
 
 
     #[Route('/editor/order/show', name: 'app_orders_show')]
-    public function getAllOrder(OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request):Response{
-        $orders = $orderRepo->findAll();
+    public function getAllOrder(OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request): Response
+    {
+        $orders = $orderRepo->findBy([], ['id' => "DESC"]);
         $orders = $paginator->paginate(
             $orders,
-            $request->query->getInt('page', 1), 4
+            $request->query->getInt('page', 1),
+            3
         );
         //dd($orders);
         return $this->render('order/orders.html.twig', [
-            "orders"=>$orders
+            "orders" => $orders
         ]);
     }
 
-}
+    #[Route('/editor/order/{id}/is-completed/update', name: 'app_orders_is-completed-update')]
+    public function isCompletedUpdate($id, OrderRepository $orderRepo, EntityManagerInterface $entityManager)
+    {
+        $order = $orderRepo->find($id);
+        $order->setIsCompleted(true);
+        $entityManager->flush();
+        $this->addFlash('success', 'Modification effectuée');
+        return $this->redirectToRoute('app_orders_show');
+    }
 
+ #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]
+    public function deleteOrder($id, OrderRepository $orderRepo, EntityManagerInterface $entityManager)
+    {
+        $order = $orderRepo->find($id);
+        $entityManager->remove($order);
+        $entityManager->flush();
+        $this->addFlash('danger', 'Commande Supprimée');
+        return $this->redirectToRoute('app_orders_show');
+    }
+}
