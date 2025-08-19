@@ -7,21 +7,28 @@ use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
-
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class OrderController extends AbstractController
 {
+
+    public function __construct(private MailerInterface $mailer){
+        
+    }
+
     #[Route('/order', name: 'app_order')]
     public function index(
         ProductRepository $productRepository,
@@ -57,6 +64,17 @@ final class OrderController extends AbstractController
                 }
             }
             $session->set('cart', []);
+
+            $html = $this->renderView('mail/orderConfirm.html.twig',[
+                'order'=>$order
+            ]);
+            $email = (new Email())
+            ->from('motoshop@gmail.com')
+            ->to($order->getEmail())
+            ->subject('Confirmation de réception de commande')
+            ->html($html);
+            $this->mailer->send($email);
+            
 
             return $this->redirectToRoute('order_message');
         }
