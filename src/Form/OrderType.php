@@ -16,27 +16,32 @@ class OrderType extends AbstractType
         $builder
             ->add('firstName', null, [
                 'attr'=>[
-                    'class'=> 'form form-control'
+                    'class'=> 'form form-control',
+
                 ]
             ])
             ->add('lastName', null, [
                 'attr'=>[
-                    'class'=> 'form form-control'
+                    'class'=> 'form form-control',
+
                 ]
             ])
             ->add('email', null, [
                 'attr'=>[
-                    'class'=> 'form form-control'
+                    'class'=> 'form form-control',
+
                 ]
             ])
             ->add('phone', null, [
                 'attr'=>[
-                    'class'=> 'form form-control'
+                    'class'=> 'form form-control',
+
                 ]
             ])
             ->add('adress', null, [
                 'attr'=>[
-                    'class'=> 'form form-control'
+                    'class'=> 'form form-control',
+
                 ]
             ])
             // ->add('createdAt', null, [

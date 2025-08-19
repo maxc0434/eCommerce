@@ -7,15 +7,17 @@ use App\Entity\Order;
 use App\Service\Cart;
 use App\Form\OrderType;
 use App\Entity\OrderProducts;
+use App\Service\StripePayment;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+
 use Symfony\Component\Mailer\MailerInterface;
-
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,9 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class OrderController extends AbstractController
 {
 
-    public function __construct(private MailerInterface $mailer){
-        
-    }
+    public function __construct(private MailerInterface $mailer) {}
 
     #[Route('/order', name: 'app_order')]
     public function index(
@@ -41,48 +41,53 @@ final class OrderController extends AbstractController
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
-
+        $stripeRedirectUrl = "";
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($order->isPayOnDelivery()) {
+            // if ($order->isPayOnDelivery()) {
 
-                if (!empty($data['total'])) {  //on verifie que le panier n'est pas vide
-                    $order->setTotalPrice($data['total']);
-                    $order->setCreatedAt(new \DateTimeImmutable());
-                    $entityManager->persist($order);
+            if (!empty($data['total'])) {  //on verifie que le panier n'est pas vide
+                $order->setTotalPrice($data['total']);
+                $order->setCreatedAt(new \DateTimeImmutable());
+                $entityManager->persist($order);
+                $entityManager->flush();
+
+                // dd($data['cart']); varDie and Dump : permet de voir dans la console le contenue du panier
+
+                foreach ($data['cart'] as $value) {
+                    $orderProduct = new OrderProducts();
+                    $orderProduct->setOrder($order);
+                    $orderProduct->setProduct($value['product']);
+                    $orderProduct->setQuantity($value['quantity']);
+                    $entityManager->persist($orderProduct);
                     $entityManager->flush();
-
-                    // dd($data['cart']); varDie and Dump : permet de voir dans la console le contenue du panier
-
-                    foreach ($data['cart'] as $value) {
-                        $orderProduct = new OrderProducts();
-                        $orderProduct->setOrder($order);
-                        $orderProduct->setProduct($value['product']);
-                        $orderProduct->setQuantity($value['quantity']);
-                        $entityManager->persist($orderProduct);
-                        $entityManager->flush();
-                    }
                 }
+
+                $paymentStripe = new StripePayment();
+                $paymentStripe->startPayment($data);
+                $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
+                $html = $this->renderView('mail/orderConfirm.html.twig', [
+                    'order' => $order
+                ]);
+
+                return $this->redirect($stripeRedirectUrl);
             }
-            $session->set('cart', []);
-
-            $html = $this->renderView('mail/orderConfirm.html.twig',[
-                'order'=>$order
-            ]);
-            $email = (new Email())
-            ->from('motoshop@gmail.com')
-            ->to($order->getEmail())
-            ->subject('Confirmation de réception de commande')
-            ->html($html);
-            $this->mailer->send($email);
-            
-
-            return $this->redirectToRoute('order_message');
         }
 
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'total' => $data['total'],
         ]);
+
+
+        return $this->redirectToRoute('order_message');
+        $session->set('cart', []);
+
+        $email = (new Email())
+            ->from('motoshop@gmail.com')
+            ->to($order->getEmail())
+            ->subject('Confirmation de réception de commande')
+            ->html($html);
+        $this->mailer->send($email);
     }
 
 
