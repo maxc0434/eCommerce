@@ -43,7 +43,7 @@ final class StripeController extends AbstractController
 
     $endpoint_secret = $_SERVER['ENDPOINT_KEY'];
     $payload = $request->getContent();
-    $sigHeader = $request->headers->get('sStripe-Signature');
+    $sigHeader = $request->headers->get('Stripe-Signature');
     $event = null;
 
     try {
