@@ -15,11 +15,17 @@ class StripePayment
     Stripe::setApiVersion('2025-07-30.basil');
     }
 
-    public function startPayment($cart){
+    public function startPayment($cart, $shippingCost){
         // dd($cart);
 
         $cartProducts = $cart['cart'];
-        $products = [];
+        $products = [
+            [
+                'qte' => 1,
+                'price' => $shippingCost,
+                'name' => "Frais de Livraison"
+            ]
+        ];
 
         foreach ($cartProducts as $value){
             $productItem = [];

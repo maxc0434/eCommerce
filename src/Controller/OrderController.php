@@ -63,7 +63,8 @@ final class OrderController extends AbstractController
                 }
 
                 $paymentStripe = new StripePayment();
-                $paymentStripe->startPayment($data);
+                $shippingCost = $order->getCity()->getShippingCost();
+                $paymentStripe->startPayment($data, $shippingCost);
                 $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
                 $html = $this->renderView('mail/orderConfirm.html.twig', [
                     'order' => $order
@@ -80,7 +81,7 @@ final class OrderController extends AbstractController
 
 
         return $this->redirectToRoute('order_message');
-        $session->set('cart', []);
+
 
         $email = (new Email())
             ->from('motoshop@gmail.com')
