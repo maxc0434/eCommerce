@@ -5,6 +5,7 @@ namespace App\Controller;
 use Stripe\Stripe;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -41,7 +42,7 @@ final class StripeController extends AbstractController
     }
 
     #[Route('/stripe/notify', name: "app_stripe_notify")]
-    public function stripeNotify(Request $request, OrderRepository $orderRepo,MailerInterface $mailer): Response
+    public function stripeNotify(Request $request, OrderRepository $orderRepo, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
 
         Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
@@ -69,6 +70,9 @@ final class StripeController extends AbstractController
 
                 $fileName = 'stripe-detail-' . uniqid() . '.txt';
                 $orderId = $paymentIntent->metadata->orderid;
+                $order = $orderRepo->find($orderId);
+                $order->setIsPaymentCompleted(1);
+                $entityManager->flush();
                 file_put_contents($fileName, $orderId);
 
 

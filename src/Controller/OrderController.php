@@ -73,9 +73,9 @@ final class OrderController extends AbstractController
                         ->to($order->getEmail())
                         ->subject('Confirmation de réception de commande')
                         ->html($html);
-                        $this->mailer->send($email);
+                    $this->mailer->send($email);
 
-                        return $this->redirectToRoute('order_message');
+                    return $this->redirectToRoute('order_message');
                 }
 
                 $paymentStripe = new StripePayment();
@@ -90,7 +90,7 @@ final class OrderController extends AbstractController
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'total' => $data['total'],
-        ]);   
+        ]);
     }
 
 

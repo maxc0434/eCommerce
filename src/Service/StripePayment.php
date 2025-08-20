@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Service;
 
@@ -7,15 +7,16 @@ use Stripe\Checkout\Session;
 
 class StripePayment
 {
-   private $redirectUrl;
+    private $redirectUrl;
 
-   public function __construct()
-   {
-    Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
-    Stripe::setApiVersion('2025-07-30.basil');
+    public function __construct()
+    {
+        Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
+        Stripe::setApiVersion('2025-07-30.basil');
     }
 
-    public function startPayment($cart, $shippingCost, $orderId){
+    public function startPayment($cart, $shippingCost, $orderId)
+    {
         // dd($cart);
         // dd($orderId);
         $cartProducts = $cart['cart'];
@@ -27,16 +28,16 @@ class StripePayment
             ]
         ];
 
-        foreach ($cartProducts as $value){
+        foreach ($cartProducts as $value) {
             $productItem = [];
-            $productItem['name'] = $value['product'] ->getName();
-            $productItem['price'] = $value['product'] ->getPrice();
+            $productItem['name'] = $value['product']->getName();
+            $productItem['price'] = $value['product']->getPrice();
             $productItem['qte'] = $value['quantity'];
             $products[] = $productItem;
         }
 
         $session = Session::create([
-            'line_items'=>[
+            'line_items' => [
                 array_map(fn(array $product) => [
                     'quantity' => $product['qte'],
                     'price_data' => [
@@ -44,7 +45,7 @@ class StripePayment
                         'product_data' => [
                             'name' => $product['name']
                         ],
-                        'unit_amount' => $product['price']*100,
+                        'unit_amount' => $product['price'] * 100,
                     ],
                 ], $products)
 
@@ -58,16 +59,15 @@ class StripePayment
             ],
             'payment_intent_data' => [
                 'metadata' => [
-                'orderid' => $orderId,
+                    'orderid' => $orderId,
                 ]
             ]
         ]);
 
         $this->redirectUrl = $session->url;
     }
-    public function getStripeRedirectUrl(){
+    public function getStripeRedirectUrl()
+    {
         return $this->redirectUrl;
     }
-
-
 }
