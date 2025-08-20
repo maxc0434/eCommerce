@@ -46,7 +46,8 @@ final class OrderController extends AbstractController
 
 
             if (!empty($data['total'])) {  //on verifie que le panier n'est pas vide
-                $order->setTotalPrice($data['total']);
+                $totalPrice = $data['total'] + $order->getCity()->getShippingCost();
+                $order->setTotalPrice($totalPrice);
                 $order->setCreatedAt(new \DateTimeImmutable());
                 $order->setIsPaymentCompleted(0);
                 $entityManager->persist($order);

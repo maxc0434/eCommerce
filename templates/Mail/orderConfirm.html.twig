@@ -2,14 +2,18 @@
 
 <h1> CONFIRMATION DE COMMANDE </h1>
 
-<p> Merci pour votre commande. Elle sera traité dans les pplus brefs délais</p>
-    <span class='text-primary'>Détail de la commande </span>
+<h3> Merci pour votre commande. Elle sera traité dans les pplus brefs délais</h3>
+   <br><br>
+   
+    <span class='text-primary'>Détail de la commande : </span>
 
 <h2> n°{{ order.id}} </h2>
 <h2>Commande passée le : {{ order.createdAt | date('d-m-y H:i')}}</h2>
 <br><br><br>
-<h2>Frais de livraison : {{order.city.shippingCost}} €</h2>
 <h2>_________________________________________________________________________</h2>
+
 <h1>Total de la commande:  {{order.totalPrice}} €</h1>
+<h2> dont                  {{order.city.shippingCost}} € de Frais de Livraison. </h2>
+
 
 </div>
