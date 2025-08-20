@@ -41,13 +41,14 @@ final class OrderController extends AbstractController
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
-        $stripeRedirectUrl = "";
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // if ($order->isPayOnDelivery()) {
+
 
             if (!empty($data['total'])) {  //on verifie que le panier n'est pas vide
                 $order->setTotalPrice($data['total']);
                 $order->setCreatedAt(new \DateTimeImmutable());
+                $order->setIsPaymentCompleted(0);
                 $entityManager->persist($order);
                 $entityManager->flush();
 
@@ -61,14 +62,26 @@ final class OrderController extends AbstractController
                     $entityManager->persist($orderProduct);
                     $entityManager->flush();
                 }
+                if ($order->isPayOnDelivery()) {
+
+                    $session->set('cart', []);
+                    $html = $this->renderView('mail/orderConfirm.html.twig', [
+                        'order' => $order
+                    ]);
+                    $email = (new Email())
+                        ->from('motoshop@gmail.com')
+                        ->to($order->getEmail())
+                        ->subject('Confirmation de réception de commande')
+                        ->html($html);
+                        $this->mailer->send($email);
+
+                        return $this->redirectToRoute('order_message');
+                }
 
                 $paymentStripe = new StripePayment();
                 $shippingCost = $order->getCity()->getShippingCost();
-                $paymentStripe->startPayment($data, $shippingCost);
+                $paymentStripe->startPayment($data, $shippingCost, $order->getId());
                 $stripeRedirectUrl = $paymentStripe->getStripeRedirectUrl();
-                $html = $this->renderView('mail/orderConfirm.html.twig', [
-                    'order' => $order
-                ]);
 
                 return $this->redirect($stripeRedirectUrl);
             }
@@ -77,18 +90,7 @@ final class OrderController extends AbstractController
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
             'total' => $data['total'],
-        ]);
-
-
-        return $this->redirectToRoute('order_message');
-
-
-        $email = (new Email())
-            ->from('motoshop@gmail.com')
-            ->to($order->getEmail())
-            ->subject('Confirmation de réception de commande')
-            ->html($html);
-        $this->mailer->send($email);
+        ]);   
     }
 
 
@@ -97,8 +99,6 @@ final class OrderController extends AbstractController
     {
         return $this->render('order/orderMessage.html.twig');
     }
-
-
 
     #[Route('/city/{id}/shipping/cost', name: 'app_city_shipping_cost')]
     public function cityShippingCost(City $city): Response
@@ -116,7 +116,7 @@ final class OrderController extends AbstractController
         $orders = $paginator->paginate(
             $orders,
             $request->query->getInt('page', 1),
-            3
+            10
         );
         //dd($orders);
         return $this->render('order/orders.html.twig', [
