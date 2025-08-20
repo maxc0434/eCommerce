@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use Stripe\Stripe;
+use Symfony\Component\Mime\Email;
+use App\Repository\OrderRepository;
+use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -36,45 +40,60 @@ final class StripeController extends AbstractController
         ]);
     }
 
-    #[Route('/stripe/notify', name : "app_stripe_notify")]
-    public function stripeNotify(Request $request): Response{
+    #[Route('/stripe/notify', name: "app_stripe_notify")]
+    public function stripeNotify(Request $request, OrderRepository $orderRepo,MailerInterface $mailer): Response
+    {
 
-    Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
+        Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
 
-    $endpoint_secret = $_SERVER['ENDPOINT_KEY'];
-    $payload = $request->getContent();
-    $sigHeader = $request->headers->get('Stripe-Signature');
-    $event = null;
+        $endpoint_secret = $_SERVER['ENDPOINT_KEY'];
+        $payload = $request->getContent();
+        $sigHeader = $request->headers->get('Stripe-Signature');
+        $event = null;
 
-    try {
-        $event = \Stripe\Webhook::constructEvent(
-            $payload, $sigHeader, $endpoint_secret
-        );
-    } catch (\UnexpectedValueException $e){
-        return new Response('Invalid payload', 400);
-    } catch (\Stripe\Exception\SignatureVerificationException $e) {
-        return new Response('Invalid signature', 400);
-    }
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sigHeader,
+                $endpoint_secret
+            );
+        } catch (\UnexpectedValueException $e) {
+            return new Response('Invalid payload', 400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            return new Response('Invalid signature', 400);
+        }
 
-    switch ($event->type) {
-        case 'payment_intent.succeeded':
-            $paymentIntent = $event->data->object;
+        switch ($event->type) {
+            case 'payment_intent.succeeded':
+                $paymentIntent = $event->data->object;
 
-            $fileName = 'stripe-detail-' .uniqid().'.txt';
-            $orderId = $paymentIntent->metadata->orderid;
-            file_put_contents($fileName, $orderId);
+                $fileName = 'stripe-detail-' . uniqid() . '.txt';
+                $orderId = $paymentIntent->metadata->orderid;
+                file_put_contents($fileName, $orderId);
 
 
-            
-            break;
-        case 'payment_method.attached':
-            $paymentMethod = $event->data->object;
-            break;
-        default: 
+                $order = $orderRepo->findOneBy(['id' => $orderId]);
+                $html = $this->renderView('mail/orderConfirm.html.twig', [
+                    'order' => $order
+                ]);
+                $email = (new Email())
+                    ->from('motoshop@gmail.com')
+                    ->to($order->getEmail())
+                    ->subject('Confirmation de réception de commande')
+                    ->html($html);
+                $mailer->send($email);
 
-            break;
-    }
+                // return $this->redirectToRoute('order_message');
 
-    return new Response('Evenement reçu avec succès', 200);
+                break;
+            case 'payment_method.attached':
+                $paymentMethod = $event->data->object;
+                break;
+            default:
+
+                break;
+        }
+
+        return new Response('Evenement reçu avec succès', 200);
     }
 }
