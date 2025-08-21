@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary navCss">
   <div class="container">
   <img class="logoMoto" src="https://i.pinimg.com/736x/aa/d5/a6/aad5a6afab013ecc703872b12405a33b.jpg" alt="logoMoto">
-    <a class="navbar-brand fs-1 navTitleCss" href="#">MotoShop</a>
+    <a class="navbar-brand fs-1 navTitleCss" href="{{ path('app_home') }}">MotoShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -49,8 +49,7 @@
             <li><a href="{{ path('app_user') }}" class="dropdown-item"> Utilisateurs </a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a href="{{ path('app_city_index') }}" class="dropdown-item"> Frais de Port </a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a href="{{ path('app_orders_show_all') }}" class="dropdown-item"> Voir Toutes les Commandes </a></li>
+
 
           </ul>
         </li>
@@ -60,6 +59,8 @@
         <li class="nav-item dropdown fs-4">
           <a class="nav-link dropdown-toggle navbtnCss2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Commande</a>
           <ul class='dropdown-menu'>
+          <li><a href="{{ path('app_orders_show_all') }}" class="dropdown-item"> Voir Toutes les Commandes </a></li>
+          <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="{{ path('app_orders_show',{'type':'is-completed'}) }}" > Commandes livrées </a></li>
           <li><a class="dropdown-item" href="{{ path('app_orders_show',{'type':'no_delivery'}) }}">Commandes non livrées</a></li>
           <li><a class="dropdown-item" href="{{ path('app_orders_show',{'type':'pay-on-stripe-not-delivered'}) }}">Commandes payées en ligne non livrées</a></li>
@@ -81,10 +82,12 @@
             <a href= " {{ path('app_register')}}" class="nav-link fs-4"> Inscription></a>
           </li>
         {% endif %} 
-      {# <form class="d-flex navSearch" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-light" type="submit">Search</button>
-      </form> #}
+
+
+      <form class="d-flex " method="post" action="{{ path('app_search_engine')}}">
+        <input name="word" class="form-control me-2 navSearch" type="search" placeholder="Search" aria-label="Search"/>
+        <button data-turbo=false class="btn btn-outline-light" type="submit">Search</button>
+      </form>
     </div>
   </div>
 </nav>

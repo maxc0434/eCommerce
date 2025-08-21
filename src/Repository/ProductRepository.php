@@ -19,10 +19,10 @@ class ProductRepository extends ServiceEntityRepository
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */
-    //    public function findByExampleField($value): array
+    //    public function findByIdUp($value): array
     //    {
     //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
+    //            ->andWhere('p.id > :val')
     //            ->setParameter('val', $value)
     //            ->orderBy('p.id', 'ASC')
     //            ->setMaxResults(10)
@@ -40,4 +40,13 @@ class ProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+        public function searchEngine(string $query){
+            return $this->createQueryBuilder('p')
+                ->where('p.Name LIKE :query')
+                ->orWhere('p.caption LIKE :query')
+                ->setParameter('query', '%' . $query . '%')
+                ->getQuery()
+                ->getResult();
+        }
 }

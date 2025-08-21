@@ -12,10 +12,14 @@
 .navTitleCss{
     text-shadow: 5px 2px 1px rgba(0, 0, 0, 0.2);
 }
-.navbtnCss{
+/* .navbtnCss{
     margin-left: 50px;
-}
-.navbtnCss2{
+} */
+/* .navbtnCss2{
     margin-right: 30px;
     margin-left: 20px;
+} */
+
+.navSearch{
+    width: 250px;
 }
