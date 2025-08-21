@@ -110,10 +110,26 @@ final class OrderController extends AbstractController
     }
 
 
-    #[Route('/editor/order/show', name: 'app_orders_show')]
-    public function getAllOrder(OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request): Response
+    #[
+        Route('/editor/order', name: 'app_orders_show_all'),
+        Route('/editor/order/{type}', name: 'app_orders_show')
+    ]
+    public function getAllOrder(?string $type, OrderRepository $orderRepo, PaginatorInterface $paginator, Request $request): Response
     {
-        $orders = $orderRepo->findBy([], ['id' => "DESC"]);
+        if($type == 'is-completed'){
+        $orders = $orderRepo->findBy(['isCompleted'=>1], ['id' => "DESC"]);
+        }
+        else if($type == 'pay-on-stripe-not-delivered'){
+            $orders = $orderRepo->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
+        }else if($type == 'pay-on-stripe-is-delivered'){
+            $orders = $orderRepo->findBy(['isCompleted'=>1,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
+        }else if($type == 'no_delivery'){
+            $orders = $orderRepo->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>0],['id'=>'DESC']);
+        }
+        else {
+            $orders = $orderRepo->findAll();
+        }
+
         $orders = $paginator->paginate(
             $orders,
             $request->query->getInt('page', 1),
@@ -121,7 +137,8 @@ final class OrderController extends AbstractController
         );
         //dd($orders);
         return $this->render('order/orders.html.twig', [
-            "orders" => $orders
+            "orders" => $orders,
+            "type" => $type
         ]);
     }
 
@@ -132,16 +149,21 @@ final class OrderController extends AbstractController
         $order->setIsCompleted(true);
         $entityManager->flush();
         $this->addFlash('success', 'Modification effectuée');
-        return $this->redirectToRoute('app_orders_show');
+        return $this->redirectToRoute('app_orders_show', ["type" => "is-completed"]);
     }
 
-    #[Route('/editor/order/{id}/delete', name: 'app_orders_delete')]
-    public function deleteOrder($id, OrderRepository $orderRepo, EntityManagerInterface $entityManager)
+    #[Route('/editor/order/{id}/delete', name: 'app_orders_delete'),
+    Route('/editor/order/{id}/delete/{type}', name: 'app_orders_delete_type')]
+
+    public function deleteOrder(?string  $type, $id, OrderRepository $orderRepo, EntityManagerInterface $entityManager)
     {
         $order = $orderRepo->find($id);
         $entityManager->remove($order);
         $entityManager->flush();
         $this->addFlash('danger', 'Commande Supprimée');
-        return $this->redirectToRoute('app_orders_show');
+        if (isset($type)){
+            return $this->redirectToRoute('app_orders_show', ["type" => $type]);
+        }
+        return $this->redirectToRoute('app_orders_show_all');
     }
 }
