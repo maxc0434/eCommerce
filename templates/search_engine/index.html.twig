@@ -1,20 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchEngineController!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+{% endblock %}
+
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+ {% include 'layouts/_flash_message.html.twig' %}
+    <div class="example-wrapper divHomePage">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/ProjetEcommerce/eCommerce/src/Controller/SearchEngineController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/ProjetEcommerce/eCommerce/templates/search_engine/index.html.twig</code></li>
-    </ul>
+        <h1 class="homeTitle"> MotoShop ... </h1>
+        <h2 class="homeSlogan"> Partir, c'est pourrir un pneu</h2>
+    </div>
+
+<div class="divBody">
+    <div class="row">
+    {% for product in products %}
+        <div class="container col-md-3 cardMargin">
+            <div class="card">
+                <a href="{{ path('app_home_product_show', {'id':product.id})}}"><img src="{{asset('uploads/images/' ~ product.image)}}" alt=""></a>
+                <h5 class="nameP">{{product.name}}</h5>
+                <h3 class="priceP">{{product.price}} €</h3> 
+                <p class="card-text captionP">{{product.caption | slice(0,20) }}...</p>
+                <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 </div>
+
 {% endblock %}

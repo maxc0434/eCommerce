@@ -16,11 +16,10 @@ final class SearchEngineController extends AbstractController
         if ($request->isMethod('POST')){
             $data = $request->request->all();
             $word = $data['word'];
-            dd($word);
             $results = $productRepo->searchEngine($word);
         }
         return $this->render('search_engine/index.html.twig', [
-            'products' => '$results',
+            'products' => $results,
         ]);
     }
 }
