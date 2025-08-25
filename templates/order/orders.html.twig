@@ -12,8 +12,9 @@
 {% block body %}
 
     <h1>Commandes</h1>
-    <div class="container">
+    <div class="container ">
     {% for order in orders %} 
+    <div class="container border mb-4">
     <table class="table table-bordered">
         <tr>
             <th>Nom</th>
@@ -56,7 +57,7 @@
         <a href="{{ path ('app_orders_delete', {'id':order.id}) }}" class='btn btn-danger col-2 m-lg-1' > Supprimer la commande</a>
 
     {% endif %}
-
+        </div>
         {% endfor %}
 
 <div>

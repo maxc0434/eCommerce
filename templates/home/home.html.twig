@@ -45,12 +45,18 @@
     <div class="row">
     {% for product in products %}
         <div class="container col-md-3 cardMargin">
-            <div class="card">
+            <div class=" container card">
                 <a href="{{ path('app_home_product_show', {'id':product.id})}}"><img src="{{asset('uploads/images/' ~ product.image)}}" alt=""></a>
                 <h5 class="nameP">{{product.name}}</h5>
-                <h3 class="priceP">{{product.price}} €</h3> 
+                <h2 class="priceP">{{product.price}} €</h2> 
+                <h5>{{product.stock}} disponible(s)</h5>
                 <p class="card-text captionP">{{product.caption | slice(0,20) }}...</p>
-                <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
+                {% if product.stock > 0 %}
+                    <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
+                {% else %}
+                    <span> Rupture de Stock </span>
+                {% endif %}
+
             </div>
         </div>
     {% endfor %}
