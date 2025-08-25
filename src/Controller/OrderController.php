@@ -31,7 +31,7 @@ final class OrderController extends AbstractController
 
     #[Route('/order', name: 'app_order')]
     public function index(
-        ProductRepository $productRepository,
+        OrderRepository $orderRepository,
         Request $request,
         SessionInterface $session,
         EntityManagerInterface $entityManager,
@@ -54,18 +54,18 @@ final class OrderController extends AbstractController
                 $entityManager->flush();
 
                 // dd($data['cart']); varDie and Dump : permet de voir dans la console le contenue du panier
-
+                
                 foreach ($data['cart'] as $value) {
                     $orderProduct = new OrderProducts();
                     $orderProduct->setOrder($order);
                     $orderProduct->setProduct($value['product']);
                     $orderProduct->setQuantity($value['quantity']);
                     $entityManager->persist($orderProduct);
-                    $entityManager->flush();
                 }
+                $entityManager->flush();
+                $entityManager->refresh($order);
                 if ($order->isPayOnDelivery()) {
-
-                    $session->set('cart', []);
+                    
                     $html = $this->renderView('mail/orderConfirm.html.twig', [
                         'order' => $order
                     ]);
@@ -75,15 +75,21 @@ final class OrderController extends AbstractController
                         ->subject('Confirmation de réception de commande')
                         ->html($html);
                     $this->mailer->send($email);
-
                     foreach ($order->getOrderProducts() as $orderProduct) {
-                    $quantity = $orderProduct->getQuantity();
-                    $product= $orderProduct->getProduct();
-                    $stock = $product-> getStock();
+                        $quantity = $orderProduct->getQuantity();
+                        $product= $orderProduct->getProduct();
+                        $stock = $product-> getStock();
+                        $updateStock = $stock - $quantity;
+                        if ($updateStock < 0){
+                            $this->addFlash("error", "One of cart products is not available anymore");
+                            return $this->redirectToRoute("app_order");
+                        }
+                        $product->setStock($updateStock);
+                        $session->set('cart', []);
+                        
+                    }
+                    $entityManager->flush();
 
-                    $updateStock = $stock - $quantity;
-                    $product->setStock($updateStock);
-                }
 
                     return $this->redirectToRoute('order_message');
                 }
@@ -104,7 +110,7 @@ final class OrderController extends AbstractController
     }
 
 
-    #[Route('/order_message', name: 'order_message')]
+    #[Route('/order/order_message', name: 'order_message')]
     public function orderMessage(): Response
     {
         return $this->render('order/orderMessage.html.twig');

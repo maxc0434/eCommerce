@@ -50,6 +50,8 @@ class OrderProducts
     {
         $this->product = $product;
 
+        $product->addOrderProduct($this);
+
         return $this;
     }
 
