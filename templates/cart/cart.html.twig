@@ -21,10 +21,10 @@
             <tr>
                 <td>{{item.product.Name}}</td>
                 <td>{{item.product.Price}} €</td>
-                <td>{{item.quantity}}</td>
+                <td><a href="{{path('app_cart_product_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">-</a> {{item.quantity}} <a href="{{path('app_cart_new', {'id':item.product.id})}}" class="text-danger text-decoration-none">+</a></td>
                 <td>{{item.product.price * item.quantity}}</td>
                 <td>
-                    <a href="{{path('app_cart_product_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">Supprimer du Panier</a>
+                    <a href="{{path('app_cart_product_line_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">Supprimer du Panier</a>
                 </td>
             </tr>
 
