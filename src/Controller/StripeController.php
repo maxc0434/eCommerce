@@ -5,6 +5,7 @@ namespace App\Controller;
 use Stripe\Stripe;
 use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,7 @@ final class StripeController extends AbstractController
     }
 
     #[Route('/stripe/notify', name: "app_stripe_notify")]
-    public function stripeNotify(Request $request, OrderRepository $orderRepo, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
+    public function stripeNotify(Request $request, OrderRepository $orderRepo, MailerInterface $mailer, EntityManagerInterface $entityManager, ProductRepository $productRepo): Response
     {
 
         Stripe::setApiKey($_SERVER['STRIPE_SECRET_KEY']);
@@ -72,9 +73,19 @@ final class StripeController extends AbstractController
                 $orderId = $paymentIntent->metadata->orderid;
                 $order = $orderRepo->find($orderId);
                 $order->setIsPaymentCompleted(1);
+
+                foreach ($order->getOrderProducts() as $orderProduct) {
+                    $quantity = $orderProduct->getQuantity();
+                    $product= $orderProduct->getProduct();
+                    $stock = $product-> getStock();
+
+                    $updateStock = $stock - $quantity;
+                    $product->setStock($updateStock);
+                }
+
+
                 $entityManager->flush();
                 file_put_contents($fileName, $orderId);
-
 
                 $order = $orderRepo->findOneBy(['id' => $orderId]);
                 $html = $this->renderView('mail/orderConfirm.html.twig', [

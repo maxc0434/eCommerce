@@ -76,6 +76,15 @@ final class OrderController extends AbstractController
                         ->html($html);
                     $this->mailer->send($email);
 
+                    foreach ($order->getOrderProducts() as $orderProduct) {
+                    $quantity = $orderProduct->getQuantity();
+                    $product= $orderProduct->getProduct();
+                    $stock = $product-> getStock();
+
+                    $updateStock = $stock - $quantity;
+                    $product->setStock($updateStock);
+                }
+
                     return $this->redirectToRoute('order_message');
                 }
 

@@ -23,7 +23,7 @@ Les fonctionnalité à ajouter lorsqu'on aura le temps.
     - afficher le stock disponible depuis la page produit OK
     - gérer le maximum du formulaire pour ne pas mettre dans le panier plus que le stock disponible 
     - gérer le cas : stock = 0
-    - décompter le stock lors de la validation de la commande.
+    - décompter le stock lors de la validation de la commande. OK
 
  Accessibilité, Meta-description, Suppression d'utilisateur, CSS
 
