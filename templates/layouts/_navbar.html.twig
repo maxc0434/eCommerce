@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary navCss">
   <div class="container">
-  <img class="logoMoto" src="https://i.pinimg.com/736x/aa/d5/a6/aad5a6afab013ecc703872b12405a33b.jpg" alt="logoMoto">
+  <img class="logoMoto img-fluid" src="https://i.pinimg.com/736x/aa/d5/a6/aad5a6afab013ecc703872b12405a33b.jpg" alt="logoMoto">
     <a class="navbar-brand fs-1 navTitleCss" href="{{ path('app_home') }}">MotoShop</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -69,6 +69,9 @@
         {% endif %}
 
           {% if app.user %}
+          <li class="nav-item navbtnCss2">
+          <a href=" {{ path('app_user_order_history')}}" class="nav-link fs-4"> Historique</a>
+          </li>
           <li class="nav-item navbtnCss2">
             <a href= " {{ path('app_cart')}}" class="nav-link fs-4"> Panier </a>
           <li class="nav-item navbtnCss2">

@@ -50,6 +50,7 @@ final class OrderController extends AbstractController
                 $order->setTotalPrice($totalPrice);
                 $order->setCreatedAt(new \DateTimeImmutable());
                 $order->setIsPaymentCompleted(0);
+                $order->setUser($this->getUser());
                 $entityManager->persist($order);
                 $entityManager->flush();
 

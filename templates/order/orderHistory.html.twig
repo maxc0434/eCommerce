@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}historique des commandes {% endblock %}
+{% block title %}historique des commandes Utilisateurs {% endblock %}
 
 
 {% block stylesheets %}
@@ -11,7 +11,7 @@
 
 {% block body %}
 
-    <h1>Commandes</h1>
+    <h1>Commandes Utilisateurs</h1>
     <div class="container ">
     {% for order in orders %} 
     <div class="container border border-dark mb-4">
@@ -32,7 +32,7 @@
                 <span class='text-danger' >Commande non livrée</span>
             {% endif %}
             <br>
-            <span>Information du client</span>
+            <span class='text-primary'>Information du client</span>
             <tr>
                 <td>{{ order.firstName }}</td>
                 <td>{{ order.lastName }}</td>
@@ -47,16 +47,7 @@
     <h5>Total de la commande:  {{order.totalPrice}} €</h5>
     <h5 class='mb-5 fw-bold'>Total à payer : {{order.totalPrice + order.city.shippingCost}} €</h5>
     <a class="btn btn-outline-light mb-2" href="{{ path('app_bill',{'id':order.id} )}}">Imprimer la Facture</a>
-    {% if order.isCompleted !=true %}
-    <a href="{{ path ('app_orders_is-completed-update', {'id':order.id}) }}" class='btn btn-outline-primary col-2 m-lg-1 mb-2'>Marquer comme "livrée"</a>
-    {% endif %}
-    {% if type is not empty %}
-        <a href="{{ path ('app_orders_delete_type', {'id':order.id, 'type':type}) }}" class='btn btn-danger col-2 m-lg-1 mb-2' > Supprimer la commande</a>
-    {% else %}
 
-        <a href="{{ path ('app_orders_delete', {'id':order.id}) }}" class='btn btn-danger col-2 m-lg-1 mb-2' > Supprimer la commande</a>
-
-    {% endif %}
         </div>
         {% endfor %}
 

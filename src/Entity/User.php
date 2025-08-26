@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
+
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
+    private Collection $orderHistory;
+
+    public function __construct()
+    {
+        $this->orderHistory = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +153,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrderHistory(): Collection
+    {
+        return $this->orderHistory;
+    }
+
+    public function addOrderHistory(Order $orderHistory): static
+    {
+        if (!$this->orderHistory->contains($orderHistory)) {
+            $this->orderHistory->add($orderHistory);
+            $orderHistory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderHistory(Order $orderHistory): static
+    {
+        if ($this->orderHistory->removeElement($orderHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($orderHistory->getUser() === $this) {
+                $orderHistory->setUser(null);
+            }
+        }
 
         return $this;
     }
