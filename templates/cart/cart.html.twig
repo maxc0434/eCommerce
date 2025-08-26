@@ -24,7 +24,7 @@
                 <td><a href="{{path('app_cart_product_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">-</a> {{item.quantity}} <a href="{{path('app_cart_new', {'id':item.product.id})}}" class="text-danger text-decoration-none">+</a></td>
                 <td>{{item.product.price * item.quantity}}</td>
                 <td>
-                    <a href="{{path('app_cart_product_line_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">Supprimer du Panier</a>
+                    <a onclick= "return confirm('voulez vous vraiment supprimer cet article du panier?')" href="{{path('app_cart_product_line_remove', {'id':item.product.id})}}" class="text-danger text-decoration-none">Supprimer du Panier</a>
                 </td>
             </tr>
 
@@ -36,7 +36,7 @@
             <h2>Total à payer : {{total}} €</h2>
             <div class="row w-25">
                 <a href="{{path('app_order')}}" data-turbo="false" class="btn btn-outline-primary">Valider la Commande </a>
-                <a href="{{path('app_cart_remove')}}" class="btn btn-outline-danger">Supprimer la commande </a>
+                <a onclick= "return confirm('voulez vous vraiment supprimer TOUT le panier?')" href="{{path('app_cart_remove')}}" class="btn btn-outline-danger">Supprimer la commande </a>
             </div>
         {% endif %}
     </div>

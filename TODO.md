@@ -27,7 +27,7 @@ Les fonctionnalité à ajouter lorsqu'on aura le temps.
 
  Accessibilité, Meta-description, Suppression d'utilisateur, CSS
 
-- C : Click and Collect, confirmation d'inscription, filtres/tri par, CDN en dépendance, 
+- C : Click and Collect, confirmation d'inscription, filtres/tri par, CDN en dépendance, HISTORIQUE DES COMMANDES POUR CHAQUE UTILISATEURS
 - 
 
 

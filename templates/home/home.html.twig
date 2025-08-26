@@ -54,7 +54,7 @@
                 {% if product.stock > 0 %}
                     <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary">Fonce au panier</a>
                 {% else %}
-                    <span> Rupture de Stock </span>
+                    <span class="border rounded border-danger bg-light p-2"> Rupture de Stock </span>
                 {% endif %}
 
             </div>
