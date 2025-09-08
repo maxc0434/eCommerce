@@ -62,11 +62,11 @@ final class UserController extends AbstractController
 
     #[IsGranted("ROLE_USER")]
     #[Route('/order/history', name: 'app_user_order_history')]
-    public function orderHistory(#[CurrentUser] ?User $user, UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
+    public function orderHistory(#[CurrentUser] ?User $user, PaginatorInterface $paginator, Request $request): Response
     {
         $orders = $user->getOrderHistory();
         foreach ($orders as $order) {
-            dump($order);
+            // dump($order);
         }
 
         $orders = $paginator->paginate(

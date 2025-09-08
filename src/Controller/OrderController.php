@@ -140,7 +140,7 @@ final class OrderController extends AbstractController
         }else if($type == 'pay-on-stripe-is-delivered'){
             $orders = $orderRepo->findBy(['isCompleted'=>1,'payOnDelivery'=>0,'isPaymentCompleted'=>1],['id'=>'DESC']);
         }else if($type == 'no_delivery'){
-            $orders = $orderRepo->findBy(['isCompleted'=>null,'payOnDelivery'=>0,'isPaymentCompleted'=>0],['id'=>'DESC']);
+            $orders = $orderRepo->findBy(['isCompleted'=>null,'payOnDelivery'=>1,'isPaymentCompleted'=>0],['id'=>'DESC']);
         }
         else {
             $orders = $orderRepo->findAll();

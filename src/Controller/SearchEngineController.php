@@ -28,3 +28,4 @@ final class SearchEngineController extends AbstractController
         ]);
     }
 }
+
