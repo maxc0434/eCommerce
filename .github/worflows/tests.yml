@@ -44,7 +44,7 @@ jobs:
     #4. Installation des dépendances du projet
     # Télécharge les bibliothèques nécessaires au fonctionnement de Symfony
     - name: Install dependencies
-    run: composer install --prefer-dist --no-progress # --prefer-dist accelere le telechargement/ --no-progress réduit le bruit dans les logs
+      run: composer install --prefer-dist --no-progress # --prefer-dist accelere le telechargement/ --no-progress réduit le bruit dans les logs
 
     - name: Run PHPUnit tests
       run: 
