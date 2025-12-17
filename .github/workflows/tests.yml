@@ -56,17 +56,16 @@ jobs:
     # 5. Exécution des tests unitaires et fonctionnels ← SEULE PARTIE MODIFIÉE
     - name: Run PHPUnit tests
       run: |
-        # Crée le dossier pour la DB SQLite (obligatoire en CI)
+        # 1️⃣ Crée le dossier pour la DB SQLite
         mkdir -p var/cache/test
         
-        # Vide le cache et charge l'env test
+        # 2️⃣ Vide le cache et charge l'env test
         APP_ENV=test php bin/console cache:clear --no-warmup
         
-        # Crée la base SQLite + schéma
-        APP_ENV=test php bin/console doctrine:database:create --if-not-exists --quiet
-        APP_ENV=test php bin/console doctrine:schema:update --complete --quiet
+        # 3️⃣ Crée directement le schéma (crée DB + tables)
+        APP_ENV=test php bin/console doctrine:schema:create --env=test
         
-        # Lance les tests
+        # 4️⃣ Lance les tests
         vendor/bin/phpunit --colors=always --coverage-text
       env:
         APP_ENV: test
