@@ -1,7 +1,7 @@
 
 
     This README is available in both English and French.
-    Ce README est disponible en anglais et en français.
+    Ce README est disponible en anglais et en français...
 
 🛒 Shop – Symfony 7 E‑commerce Application
 
