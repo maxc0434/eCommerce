@@ -45,7 +45,9 @@ jobs:
     # Télécharge les bibliothèques nécessaires au fonctionnement de Symfony
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress # --prefer-dist accelere le telechargement/ --no-progress réduit le bruit dans les logs
-
+    
+    #5. Execution des tests unitaires et fonctionnels
+    #Lance PHPUnit pour vérifier que le code fonctionne comme prévu
     - name: Run PHPUnit tests
       run: 
         php bin/phpunit --verbose --colors=always #Lance les tests avec un affichage détaillé et en couleur
