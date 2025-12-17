@@ -14,7 +14,7 @@ on:
 
 jobs:
   tests:
-    runs-on: unbuntu-latest # Utilise une VM Linux (dernière version Ubuntu stable)
+    runs-on: ubuntu-latest # Utilise une VM Linux (dernière version Ubuntu stable)
     
     #----------------------------------------------------
     #ETAPES (STEPS)
