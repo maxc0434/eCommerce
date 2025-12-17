@@ -1,73 +1,56 @@
 #Test CI/CD
-# Le nom qui s'affichera dans l'interface GitHub Actions
+
+# Le nom qui s'affichera dans l'interface Github Actions
 name: Tests Symfony E-commerce
-# ------------------------------------------------------------------
-# DÉCLENCHEURS (TRIGGERS)
-# Définit quand ce workflow doit s'exécuter
-# ------------------------------------------------------------------
-on: 
+#---------------------------------------------------------
+#DECLENCHEURS (TRIGGERS)
+#Définit quand ce workflow doit s'executer
+#--------------------------------------------------------
+on:
   push:
-    branches: [ master,main, develop ]  # Se lance à chaque push (commit) sur les branches principales
+    branches: [master,main,develop] # Se lance à chaque push (commit) sur les branches principales
   pull_request:
-    branches: [ master,main ]  # Se lance quand une PR est ouverte ou mise à jour vers 'main'
+    branches: [master,main] # Se lance quand une PR est ouverte ou mise a jour vers 'main'
 
 jobs:
   tests:
-    runs-on: ubuntu-latest  # Utilise une machine virtuelle Linux (dernière version Ubuntu stable)
-
-    # ------------------------------------------------------------------
-    # ÉTAPES (STEPS)
-    # La suite d'actions à exécuter séquentiellement
-    # ------------------------------------------------------------------
+    runs-on: ubuntu-latest # Utilise une VM Linux (dernière version Ubuntu stable)
+    
+    #----------------------------------------------------
+    #ETAPES (STEPS)
+    # La suite d'actions à executer séquentiellement
+    #----------------------------------------------------
     steps:
-    # 1. Récupération du code source
-    # Clone votre dépôt dans l'environnement virtuel pour que le script puisse y accéder
+    #1. Récupération du code source
+    #Clone votre dépot dans l'environnement virtuel pour que le script puisse y acceder
     - name: Checkout
       uses: actions/checkout@v4
-    # 2. Configuration de l'environnement PHP
+    #2. Configuration de l'environnement PHP
     # Utilise l'action populaire 'setup-php' pour installer PHP et les extensions
-    - name: Setup PHP 8.3  
+    - name: Setup PHP 8.3
       uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.3'  # Force la version de PHP correspondant à votre projet
-        extensions: sqlite3  # Installe SQLite (souvent utilisé pour des tests rapides sans base de données lourde)
+      with: 
+        php-version: '8.3' # Force la version de PHP correspondant a votre projet
+        extensions: sqlite3 # Installe SQLite (souvent utilisé pour des tests rapides sans base de données lourde)
 
-    # 3. Mise en cache des dépendances Composer
-    # Permet d'accélérer les builds suivants en sauvegardant le dossier 'vendor'
+    #3. Mise en cache des dépendances Composer
+    # Permet d'accelerer les builds suivants en sauvegardant le dossier 'vendor'
     - name: Cache Composer
       uses: actions/cache@v4
       with:
-        path: vendor  # Le dossier à mettre en cache
-        # Crée une clé unique basée sur le contenu du fichier composer.lock
-        key: composer-${{ hashFiles('**/composer.lock') }}
+        path: vendor #dossier a mettre en cache
+        key: composer-${{ hashFiles('**/composer.lock') }} #Créer une clé unique basée sur le contenu du fichier composer.lock
 
-    # 4. Installation des dépendances du projet
-    # Télécharge les bibliothèques nécessaires au fonctionnement de Symfony    
+    #4. Installation des dépendances du projet
+    # Télécharge les bibliothèques nécessaires au fonctionnement de Symfony
     - name: Install dependencies
-      # --prefer-dist accélère le téléchargement, --no-progress réduit le bruit dans les logs
-      run: composer install --prefer-dist --no-progress
-
-    # 5. Exécution des tests unitaires et fonctionnels
-    # Lance PHPUnit pour vérifier que le code fonctionne comme prévu
-    #- name: Run PHPUnit tests
-     # run: |
-        # Lance les tests avec un affichage détaillé et en couleur
-       # vendor/bin/phpunit --colors=always --coverage-text
-    # 5. Exécution des tests unitaires et fonctionnels ← SEULE PARTIE MODIFIÉE
+      run: composer install --prefer-dist --no-progress # --prefer-dist accelere le telechargement/ --no-progress réduit le bruit dans les logs
+    
+    #5. Execution des tests unitaires et fonctionnels
+    #Lance PHPUnit pour vérifier que le code fonctionne comme prévu
     - name: Run PHPUnit tests
       run: |
-        # Crée le dossier pour la DB SQLite (obligatoire en CI)
-        mkdir -p var/cache/test
-        
-        # Vide le cache et charge l'env test
-        APP_ENV=test php bin/console cache:clear --no-warmup
-        
-        # Crée la base SQLite + schéma
-        APP_ENV=test php bin/console doctrine:database:create --if-not-exists --quiet
-        APP_ENV=test php bin/console doctrine:schema:update --complete --quiet
-        
-        # Lance les tests
-        vendor/bin/phpunit --colors=always --coverage-text
-      env:
-        APP_ENV: test
-
+        # Lance les tests avec un affichage détaillé et en couleur
+        php bin/phpunit --colors=always  
+        # Affiche un résumé de la couverture de code dans la console
+        php bin/phpunit --coverage-text
