@@ -49,7 +49,9 @@ jobs:
     #5. Execution des tests unitaires et fonctionnels
     #Lance PHPUnit pour vérifier que le code fonctionne comme prévu
     - name: Run PHPUnit tests
-      run: 
-        php bin/phpunit --verbose --colors=always #Lance les tests avec un affichage détaillé et en couleur
-        php bin/phpunit --coverage-text #Affiche un résumé de la couverture de code dans la console
+      run: |
+        # Lance les tests avec un affichage détaillé et en couleur
+        php bin/phpunit --verbose --colors=always  
+        # Affiche un résumé de la couverture de code dans la console
+        php bin/phpunit --coverage-text
     
