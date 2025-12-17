@@ -66,7 +66,7 @@ when@test:
             app_user_provider_test:
                 memory:
                     users:
-                        test@test.com: { password: password, roles: ['ROLE_USER'] }
+                        test@test.com: { password: password, roles: ['ROLE_USER'], ['ROLE_ADMIN'] }
         firewalls:
             main:   
                 provider: app_user_provider_test
